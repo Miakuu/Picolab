@@ -24,7 +24,7 @@ const localBindingConfig = {
         },
       ]
     : [],
-  r2_buckets: r2
+  r2_buckets: false && r2
     ? [
         {
           binding: r2,
