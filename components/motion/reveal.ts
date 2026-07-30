@@ -1,16 +1,45 @@
-// Animations reveal on scroll (remplacement du fichier manquant)
-if (typeof document !== "undefined") {
-  const style = document.createElement("style");
-  style.textContent = `
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
-    .reveal.is-visible { opacity: 1; transform: none; }
-    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
-  `;
-  document.head.appendChild(style);
-  const io = new IntersectionObserver(
-    (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("is-visible")),
-    { threshold: 0.15 }
+"use client";
+
+import { useEffect, useRef, type ReactNode } from "react";
+
+export function Reveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.opacity = "0";
+    el.style.transform = "translateY(24px)";
+    el.style.transition = `opacity .6s ease ${delay}ms, transform .6s ease ${delay}ms`;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            el.style.opacity = "1";
+            el.style.transform = "none";
+            io.disconnect();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [delay]);
+
+  return (
+    <div ref={ref} className={className}>
+      {children}
+    </div>
   );
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 }
-export {};
+
+export default Reveal;
