@@ -4,7 +4,7 @@ import { defineConfig } from "vite";
 import { sites } from "./build/sites-vite-plugin";
 
 const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
-  "TON-ID-ICI";
+   "2bf7407e-95f2-43ca-a878-5a6298070fbc";
 
 const d1 = "DB";
 const r2 = "BUCKET";
