@@ -20,7 +20,7 @@ const localBindingConfig = {
         {
           binding: d1,
           database_name: "site-creator-d1",
-          database_id: "TON-ID-ICI",
+          database_id: "2bf7407e-95f2-43ca-a878-5a6298070fbc",
         },
       ]
     : [],
